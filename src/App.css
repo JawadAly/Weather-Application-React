@@ -1,38 +1,82 @@
-.App {
-  text-align: center;
+@import url('https://fonts.googleapis.com/css2?family=Philosopher:ital,wght@0,400;1,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Courgette&display=swap');
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+section{
+  width: 100%;
+  min-height: 92vh;
+  overflow-x: hidden;
+  background: #000046; /* fallback for old browsers */
+  background: -webkit-linear-gradient(to left, #000046, #1cb5e0); /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to left, #000046, #1cb5e0); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.myNav{
+  width: 100%;
+  height: 60px;
+  background: inherit;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
 }
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+.navBrand a{
+  text-decoration: none;
+  color: #fff;
+  font-size: 26px;
+  font-family: 'Philosopher', sans-serif;
+  font-style: italic;
+  font-weight: 400;
 }
-
-.App-link {
-  color: #61dafb;
+.weatherCard{
+  width: 21.5rem;
+  height: 26rem;
+  background: #fff;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  background: url('https://img.freepik.com/free-photo/white-clouds-blue-background_23-2148964575.jpg?w=360');
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  border-radius: 20px;
 }
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.inputArea{
+  width: 100%;
+  height: 70px;
+  /* background: blueviolet; */
+}
+.typingInput{
+  width: 250px;
+  height: 35px;
+  border-radius: 16px;
+  border: 1px solid lightslategray;
+  padding-left: 16px;
+  position: relative;
+}
+.typingInput:focus{
+  outline: none;
+}
+.glassIcon{
+  position: absolute;
+  left: 76%;
+  cursor: pointer;
+}
+.glassIcon:hover{
+  transform: scale(1.2);
+}
+.weatherDescText{
+  font-family: 'Courgette', cursive;
+  font-size: 26px;
+}
+footer{
+  width: 100%;
+  min-height: 6vh;
+  background-color: lightseagreen;
+  background: whitesmoke;
 }
