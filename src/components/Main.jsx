@@ -32,7 +32,7 @@ const Main = () =>{
     // first fetching latitudes and longitudes with geocoding API
     const fetchLatsLongs = async () =>{
         try{
-            const incomingRawData = await fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${userFinalText}&limit=1&appid=54bd14e89587fb7795f92a50e7b484e7`);
+            const incomingRawData = await fetch(`https://api.openweathermap.org/geo/1.0/direct?q=${userFinalText}&limit=1&appid=54bd14e89587fb7795f92a50e7b484e7`);
             const jsonData = incomingRawData.json();
             return jsonData;
         }
