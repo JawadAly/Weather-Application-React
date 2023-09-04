@@ -101,7 +101,7 @@ const Main = () =>{
                 };
             });
             // console.log(incomingData.weather);
-            console.log(incomingData);
+            // console.log(incomingData);
             // console.log(incomingData.main);
         });
     },[userFinalText]);
