@@ -9,6 +9,7 @@ import moderateBg from '../images/mild_bg.jpg';
 import cloudyBg from '../images/cloudy_bg.avif';
 import partiallySunny from '../images/partially_sunny.avif';
 import hotBg from '../images/sunny_bg.jpg';
+import Preloader from './Preloader';
 const Main = () =>{
     // js here
     // typingInput State
@@ -17,34 +18,45 @@ const Main = () =>{
     const submitUserFinalText = (e) =>{
         e.preventDefault();
         setUserFinalText(userText);
+        // clearing input field
+        setUserText("");
+    }
+    const submitOnEnter = (e) =>{
+        if(e.key === 'Enter'){
+            setUserFinalText(userText);
+            // clearing input field
+            setUserText("");
+        }
     }
     // state for latitudes and longitudes
-    const[coordinates ,setCoordinates] = useState({
-        locationName :"",
-        latitude : "",
-        longitude : ""
-    });
+    // const[coordinates ,setCoordinates] = useState({
+    //     locationName :"",
+    //     latitude : "",
+    //     longitude : ""
+    // });
     // dataHolding state
     const[weatherData ,setWeatherData] = useState();
     const[weatherDesc ,setWeatherDesc] = useState();
     const[windData ,setWindData] = useState();
+    const[locationName ,setLocationName] = useState();
     // fetching api data
     // first fetching latitudes and longitudes with geocoding API
-    const fetchLatsLongs = async () =>{
-        try{
-            const incomingRawData = await fetch(`https://api.openweathermap.org/geo/1.0/direct?q=${userFinalText}&limit=1&appid=54bd14e89587fb7795f92a50e7b484e7`);
-            const jsonData = incomingRawData.json();
-            return jsonData;
-        }
-        catch(error){
-            console.log(`Error contacting geocoding Api! Error : ${error}`);
-        }
-    }    
+    // const fetchLatsLongs = async () =>{
+    //     try{
+    //         const incomingRawData = await fetch(`https://api.openweathermap.org/geo/1.0/direct?q=${userFinalText}&limit=1&appid=54bd14e89587fb7795f92a50e7b484e7`);
+    //         const jsonData = incomingRawData.json();
+    //         return jsonData;
+    //     }
+    //     catch(error){
+    //         console.log(`Error contacting geocoding Api! Error : ${error}`);
+    //     }
+    // }    
 
     const fetchApiData = async () =>{
         try{
-            const incomingRawData = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${coordinates.latitude}&lon=${coordinates.longitude}&appid=54bd14e89587fb7795f92a50e7b484e7&units=metric`);
-            const jsonData = incomingRawData.json();
+            // const incomingRawData = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${coordinates.latitude}&lon=${coordinates.longitude}&appid=54bd14e89587fb7795f92a50e7b484e7&units=metric`);
+            const incomingRawData = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${userFinalText}&appid=54bd14e89587fb7795f92a50e7b484e7&units=metric`);
+            const jsonData = await incomingRawData.json();
             return jsonData;
         }
         catch(error){
@@ -52,20 +64,20 @@ const Main = () =>{
         }
     }
     
-    useEffect(()=>{
-        fetchLatsLongs().then((incomingData)=>{
-            setCoordinates(()=>{
-                return{
-                    locationName : incomingData[0].name,
-                    latitude : incomingData[0].lat,
-                    longitude : incomingData[0].lat
-                };
-            });
-            // console.log(incomingData[0].name);
-            // console.log(incomingData[0].lat);
-            // console.log(incomingData[0].lon);
-        });
-    },[userFinalText]);
+    // useEffect(()=>{
+    //     fetchLatsLongs().then((incomingData)=>{
+    //         setCoordinates(()=>{
+    //             return{
+    //                 locationName : incomingData[0].name,
+    //                 latitude : incomingData[0].lat,
+    //                 longitude : incomingData[0].lat
+    //             };
+    //         });
+    //         // console.log(incomingData[0].name);
+    //         // console.log(incomingData[0].lat);
+    //         // console.log(incomingData[0].lon);
+    //     });
+    // },[userFinalText]);
 
     
     useEffect(()=>{
@@ -76,11 +88,16 @@ const Main = () =>{
             setWeatherDesc(incomingData.weather);
             // wind object is directly stored in a simple state object
             setWindData(incomingData.wind);
+            // storing location name in a simple state variable
+            setLocationName(incomingData.name);
             // console.log(incomingData.weather);
-            // console.log(incomingData);
+            console.log(incomingData);
             // console.log(incomingData.main);
         });
-    },[coordinates]);
+    },[userFinalText]);
+
+    // },[coordinates]);
+
     // console.log(weatherData);
     useEffect(()=>{
         alert('This weather app is designed to provide weather updates of major locations so dont use it for small and precise locations sets 😃 ');
@@ -92,7 +109,7 @@ const Main = () =>{
             <div className='container'>
                 <div className='weatherCard'>
                     <div className='inputArea d-flex align-items-center justify-content-center'>
-                        <input value={userText} onChange={ (e)=>{ setUserText(e.target.value) } } type='text' className='typingInput'/>
+                        <input value={userText} onChange={ (e)=>{ setUserText(e.target.value) } } onKeyDown={ submitOnEnter } type='text' className='typingInput'/>
                         <span 
                         onClick={submitUserFinalText}
                         className='glassIcon'
@@ -101,7 +118,8 @@ const Main = () =>{
                         </span>
                     </div>
                     <div className='weatherInfoArea d-flex align-items-baseline justify-content-around'>
-                        <h2 className='text-center text-white'>{coordinates.locationName}</h2>
+                        {/* <h2 className='text-center text-white'>{coordinates.locationName}</h2> */}
+                        {weatherData ? <h2 className='text-center text-white'>{locationName}</h2> : null}
                         {weatherDesc ? <p className='ms-2 weatherDescText'>{weatherDesc[0].description}</p> : null}
                         
                     </div>
@@ -125,7 +143,7 @@ const Main = () =>{
                             </div>
                             
                         </div>
-                     : <p>Data not found</p>}
+                     : <Preloader/>}
                      
                     
 
