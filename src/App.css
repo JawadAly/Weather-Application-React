@@ -32,8 +32,8 @@ section{
   font-weight: 400;
 }
 .weatherCard{
-  width: 21.5rem;
-  height: 26rem;
+  min-width: 21rem;
+  height: 27rem;
   background: #fff;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   position: absolute;

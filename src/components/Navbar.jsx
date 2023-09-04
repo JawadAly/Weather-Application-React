@@ -6,7 +6,7 @@ const Navbar = () =>{
         <div className='container'>
             <div className='navFlexer d-flex align-items-center justify-content-between'>
                 <div className='navBrand'>
-                    <a href="#"> 🌦️ Weather App </a>
+                    <a href="#"> 🌦️ Storm Cape </a>
                 </div>
                 {/* <div>
                     hello

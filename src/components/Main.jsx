@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
 import AvTimerIcon from '@mui/icons-material/AvTimer';
 import SpeedIcon from '@mui/icons-material/Speed';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 // weather backgrounds
 import snowyBg from '../images/snowy_bg.jpg';
 import mildChilyyBg from '../images/chilyy_bg.jpg';
@@ -38,7 +40,10 @@ const Main = () =>{
     const[weatherData ,setWeatherData] = useState();
     const[weatherDesc ,setWeatherDesc] = useState();
     const[windData ,setWindData] = useState();
-    const[locationName ,setLocationName] = useState();
+    const[locationInfo ,setLocationInfo] = useState({
+        locationName : "",
+        locationVisibilty : ""
+    });
     // fetching api data
     // first fetching latitudes and longitudes with geocoding API
     // const fetchLatsLongs = async () =>{
@@ -89,7 +94,12 @@ const Main = () =>{
             // wind object is directly stored in a simple state object
             setWindData(incomingData.wind);
             // storing location name in a simple state variable
-            setLocationName(incomingData.name);
+            setLocationInfo(()=>{
+                return{
+                    locationName : incomingData.name,
+                    locationVisibilty : incomingData.visibility/1000
+                };
+            });
             // console.log(incomingData.weather);
             console.log(incomingData);
             // console.log(incomingData.main);
@@ -119,29 +129,38 @@ const Main = () =>{
                     </div>
                     <div className='weatherInfoArea d-flex align-items-baseline justify-content-around'>
                         {/* <h2 className='text-center text-white'>{coordinates.locationName}</h2> */}
-                        {weatherData ? <h2 className='text-center text-white'>{locationName}</h2> : null}
-                        {weatherDesc ? <p className='ms-2 weatherDescText'>{weatherDesc[0].description}</p> : null}
+                        {weatherData ? <h2 className='text-center text-white'>{locationInfo.locationName}</h2> : null}
+                        {weatherDesc ? <p className='ms-2 weatherDescText' style={{color:'lightgrey'}}>{weatherDesc[0].description}</p> : null}
                         
                     </div>
                     { weatherData  ? 
-                        <div className='mt-3 tempHolder d-flex align-items-center justify-content-around flex-column'>
+                        <div className='mt-0 tempHolder d-flex align-items-center justify-content-around flex-column'>
                             {/* <span>Current Temp: </span>
                             <span>Min :</span>
                             <span>Max :</span> */}
                             <h1 className='text-white'> 🌡️ {weatherData.temp}°C</h1>
                             <p>Min: {weatherData.temp_min}°C / Max: {weatherData.temp_max}°C</p>
-                            <h5 className='mt-2'>Wind Speed <SpeedIcon/>: {windData.speed}m/s</h5>
-                            <div className='mt-3 flexer d-flex align-items-center justify-content-between'>
+                            <h5 className='mt-1' >Feels like : {weatherData.feels_like}°C</h5>
+                            <div className='mt-2 flexer d-flex align-items-center justify-content-between'>
                                     <div className='humidity'>
                                         <h5>💧Humidity</h5>
                                         <p className='text-center'>{weatherData.humidity}%</p>
                                     </div>
                                     <div className='pressure ms-5'>
                                         <h5>Pressure <AvTimerIcon/></h5>
-                                        <p className='text-center'>{weatherData.pressure} Pa</p>
+                                        <p className='text-center'>{weatherData.pressure} <ArrowDownwardIcon/> mb</p>
                                     </div>
                             </div>
-                            
+                            <div className='flexer d-flex align-items-center justify-content-between'>
+                                    <div className='humidity'>
+                                        <h5>Wind Speed <SpeedIcon/></h5>
+                                        <p className='text-center'>{windData.speed}m/s</p>
+                                    </div>
+                                    <div className='pressure ms-5'>
+                                        <h5>Visiblity <VisibilityIcon/></h5>
+                                        <p className='text-center'>{locationInfo.locationVisibilty} km</p>
+                                    </div>
+                            </div>
                         </div>
                      : <Preloader/>}
                      
